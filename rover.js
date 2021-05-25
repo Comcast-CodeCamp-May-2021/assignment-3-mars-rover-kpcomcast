@@ -6,10 +6,6 @@ class Rover {
   }
 
   receiveMessage(message) {
-    let resp = {
-      message: message.name,
-      results: []
-    }
     let arr = message.commands;
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].commandType === "STATUS_CHECK") {
@@ -25,7 +21,7 @@ class Rover {
         this.mode = arr[i].value;
         arr[i] = {
           completed: true
-        };
+        }
       } else if (arr[i].commandType === "MOVE") {
         if (this.mode === "LOW_POWER") {
           arr[i] = {
@@ -39,7 +35,10 @@ class Rover {
         }
       }
     }
-    resp.results = arr;
+    let resp = {
+      message: message.name,
+      results: arr
+    }
     return resp;
   }
 }
